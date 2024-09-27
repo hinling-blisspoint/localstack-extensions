@@ -86,6 +86,7 @@ class AuthProxyAWS(Server):
         region_name, service_name = parsed
         query_string = to_str(request.query_string or "")
 
+        LOG.debug("========> whole request: %s", request)
         LOG.debug(
             "Proxying request to %s (%s): %s %s %s",
             service_name,
