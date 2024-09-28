@@ -281,6 +281,7 @@ class AuthProxyAWS(Server):
             host = request.headers.pop(HEADER_HOST_ORIGINAL, None)
             LOG.debug("======> Host from HEADER_HOST_ORIGINAL: %s", host)
             host = host or request.headers.get("Host") or ""
+            LOG.debug("======> LOCALHOST_HOSTNAME: %s", LOCALHOST_HOSTNAME)
             match = re.match(rf"(.+)\.s3\.{LOCALHOST_HOSTNAME}", host)
             LOG.debug("======> Matched bucket name: %s", match.group(1) if match else None)
             if match:
