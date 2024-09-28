@@ -274,6 +274,7 @@ class AuthProxyAWS(Server):
         request.headers.pop("Remote-Addr", None)
 
     def _fix_host_and_path(self, request: Request, service_name: str):
+        LOG.debug("Fixing host and path for service %s; request.headers: %s; request.path: %s", service_name, request.headers, request.path)
         if service_name == "s3":
             # fix the path and prepend the bucket name, to avoid bucket addressing issues
             host = request.headers.pop(HEADER_HOST_ORIGINAL, None)
