@@ -278,6 +278,7 @@ class AuthProxyAWS(Server):
         if service_name == "s3":
             # fix the path and prepend the bucket name, to avoid bucket addressing issues
             host = request.headers.pop(HEADER_HOST_ORIGINAL, None)
+            LOG.debug("======> Host from HEADER_HOST_ORIGINAL: %s", host);
             host = host or request.headers.get("Host") or ""
             match = re.match(rf"(.+)\.s3\.{LOCALHOST_HOSTNAME}", host)
             if match:
