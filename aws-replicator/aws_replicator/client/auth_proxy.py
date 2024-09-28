@@ -109,6 +109,7 @@ class AuthProxyAWS(Server):
         # fix headers (e.g., "Host") and create client
         self._fix_headers(request, service_name)
         self._fix_host_and_path(request, service_name)
+        LOG.debug("====> Request.path after fix: %s", request.path)
 
         # create request and request dict
         operation_model, aws_request, request_dict = self._parse_aws_request(
@@ -278,12 +279,14 @@ class AuthProxyAWS(Server):
         if service_name == "s3":
             # fix the path and prepend the bucket name, to avoid bucket addressing issues
             host = request.headers.pop(HEADER_HOST_ORIGINAL, None)
-            LOG.debug("======> Host from HEADER_HOST_ORIGINAL: %s", host);
+            LOG.debug("======> Host from HEADER_HOST_ORIGINAL: %s", host)
             host = host or request.headers.get("Host") or ""
             match = re.match(rf"(.+)\.s3\.{LOCALHOST_HOSTNAME}", host)
+            LOG.debug("======> Matched bucket name: %s", match.group(1) if match else None)
             if match:
                 # prepend the bucket name (extracted from the host) to the path of the request (path-based addressing)
                 request.path = f"/{match.group(1)}{request.path}"
+                LOG.debug("======> did we actually set the request.path? %s", request.path)
 
     def _extract_region_and_service(self, headers) -> Optional[Tuple[str, str]]:
         auth_header = headers.pop("Authorization", "")
