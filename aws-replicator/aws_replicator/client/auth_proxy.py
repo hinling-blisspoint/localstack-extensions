@@ -283,7 +283,7 @@ class AuthProxyAWS(Server):
             host = host or request.headers.get("Host") or ""
             LOG.debug("======> LOCALHOST_HOSTNAME: %s", LOCALHOST_HOSTNAME)
             LOG.debug("======> host: %s", host)
-            match = re.match(rf"(.+)\.s3\.{LOCALHOST_HOSTNAME}", host)
+            match = re.match(r"^(.*?)\..*", host)
             LOG.debug("======> Matched bucket name: %s", match.group(1) if match else None)
             if match:
                 # prepend the bucket name (extracted from the host) to the path of the request (path-based addressing)
