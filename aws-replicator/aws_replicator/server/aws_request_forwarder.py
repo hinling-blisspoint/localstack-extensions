@@ -51,6 +51,7 @@ class AwsProxyHandler(Handler):
 
     def select_proxy(self, context: RequestContext) -> Optional[ProxyInstance]:
         """select a proxy responsible to forward a request to real AWS"""
+        LOG.info(f"=====> Selecting proxy for service: {context.service.service_name}")
         if not context.service:
             # this doesn't look like an AWS service invocation -> return
             return
