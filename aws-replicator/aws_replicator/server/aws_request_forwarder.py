@@ -218,6 +218,7 @@ class AwsProxyHandler(Handler):
 
     @classmethod
     def _get_canonical_service_name(cls, service_name: str) -> str:
+        LOG.info("====> service_name: %s", service_name)
         if service_name == "sqs-query":
             return "sqs"
         return service_name
