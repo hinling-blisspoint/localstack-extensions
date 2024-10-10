@@ -33,6 +33,8 @@ class AwsProxyHandler(Handler):
     PROXY_INSTANCES: Dict[int, ProxyInstance] = {}
 
     def __call__(self, chain: HandlerChain, context: RequestContext, response: Response):
+        LOG.info("=====> Handling request: %s", context.request.path)
+        LOG.info("=====> Service: %s", context.service.service_name)
         proxy = self.select_proxy(context)
         if not proxy:
             return
